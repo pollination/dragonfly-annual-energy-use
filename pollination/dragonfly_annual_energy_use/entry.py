@@ -6,6 +6,13 @@ from pollination.honeybee_energy.settings import SimParDefault
 from pollination.honeybee_energy.simulate import SimulateModel
 from pollination.honeybee_energy.result import EnergyUseIntensity
 
+# input/output alias
+from pollination.alias.inputs.model import dfjson_model_input
+from pollination.alias.inputs.ddy import ddy_input
+from pollination.alias.inputs.bool_options import filter_des_days_input, \
+    use_multiplier_input
+from pollination.alias.outputs.eui import parse_eui_results
+
 
 @dataclass
 class DragonflyAnnualEnergyUseEntryPoint(DAG):
@@ -15,6 +22,7 @@ class DragonflyAnnualEnergyUseEntryPoint(DAG):
     model = Inputs.file(
         description='A Dragonfly model in JSON file format.',
         extensions=['json', 'dfjson'],
+        alias=dfjson_model_input
     )
 
     epw = Inputs.file(
@@ -24,7 +32,8 @@ class DragonflyAnnualEnergyUseEntryPoint(DAG):
 
     ddy = Inputs.file(
         description='A DDY file with design days to be used for the initial '
-        'sizing calculation.', extensions=['ddy']
+        'sizing calculation.', extensions=['ddy'],
+        alias=ddy_input
     )
 
     obj_per_model = Inputs.str(
@@ -38,7 +47,8 @@ class DragonflyAnnualEnergyUseEntryPoint(DAG):
         'should be passed along to the generated Honeybee Room objects or if full '
         'geometry objects should be written for each story of each dragonfly building.',
         default='full-geometry',
-        spec={'type': 'string', 'enum': ['full-geometry', 'multiplier']}
+        spec={'type': 'string', 'enum': ['full-geometry', 'multiplier']},
+        alias=use_multiplier_input
     )
 
     shade_dist = Inputs.float(
@@ -51,7 +61,8 @@ class DragonflyAnnualEnergyUseEntryPoint(DAG):
     filter_des_days = Inputs.str(
         description='A switch for whether the ddy-file should be filtered to only '
         'include 99.6 and 0.4 design days', default='filter-des-days',
-        spec={'type': 'string', 'enum': ['filter-des-days', 'all-des-days']}
+        spec={'type': 'string', 'enum': ['filter-des-days', 'all-des-days']},
+        alias=filter_des_days_input
     )
 
     units = Inputs.str(
@@ -96,8 +107,6 @@ class DragonflyAnnualEnergyUseEntryPoint(DAG):
         sim_par=create_sim_par._outputs.sim_par_json
     ) -> List[Dict]:
         return [
-            {'from': SimulateModel()._outputs.osm, 'to': 'osm/{{item.id}}.osm'},
-            {'from': SimulateModel()._outputs.idf, 'to': 'idf/{{item.id}}.idf'},
             {'from': SimulateModel()._outputs.sql, 'to': 'sql/{{item.id}}.sql'},
             {'from': SimulateModel()._outputs.zsz, 'to': 'zsz/{{item.id}}_zsz.csv'},
             {'from': SimulateModel()._outputs.html, 'to': 'html/{{item.id}}.htm'},
@@ -117,20 +126,13 @@ class DragonflyAnnualEnergyUseEntryPoint(DAG):
     eui = Outputs.file(
         source='eui.json', description='A JSON containing energy use intensity '
         'information across the total model floor area. Values are either kWh/m2 '
-        'or kBtu/ft2 depending upon the units input.'
+        'or kBtu/ft2 depending upon the units input.',
+        alias=parse_eui_results
     )
 
     hbjson = Outputs.folder(
         source='models',
         description='Folder containing the HBJSON models used for simulation.'
-    )
-
-    osm = Outputs.folder(
-        source='results/osm', description='Folder containing the OpenStudio model.'
-    )
-
-    idf = Outputs.folder(
-        source='results/idf', description='Folder containing the IDF models.'
     )
 
     sql = Outputs.folder(
