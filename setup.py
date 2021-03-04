@@ -20,10 +20,10 @@ setuptools.setup(
     setup_requires=['setuptools_scm'],
     url='https://github.com/pollination/dragonfly-annual-energy-use',                   # will be translated to home
     project_urls={
-        'icon': 'https://raw.githubusercontent.com/ladybug-tools/artwork/master/icons_components/honeybee/png/annualloads.png',
+        'icon': 'https://raw.githubusercontent.com/ladybug-tools/artwork/master/icons_components/honeybee/png/dfeui.png',
         'docker': 'https://hub.docker.com/r/ladybugtools/dragonfly-energy'
     },
-    description='Run an annual energy simulation and compute energy use intensity.',                  # will be used as package description
+    description='Run an annual energy simulation for a Dragonfly Model and compute energy use intensity.',                  # will be used as package description
     long_description=long_description,                                      # will be translated to ReadMe content on Pollination
     long_description_content_type="text/markdown",
     maintainer='chris, ladybug-tools',                                   # Package maintainers. For multiple maintainers use comma

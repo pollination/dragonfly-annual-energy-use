@@ -1,4 +1,3 @@
 # dragonfly-annual-energy-use
-Dragonfly annual energy recipe for Pollination
 
-Use this recipe to calculate annual energy for a DFJSON model.
+Calculate annual energy use intensity (EUI) for a Dragonfly model.
