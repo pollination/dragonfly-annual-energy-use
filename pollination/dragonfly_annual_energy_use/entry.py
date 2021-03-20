@@ -51,7 +51,7 @@ class DragonflyAnnualEnergyUseEntryPoint(DAG):
         alias=use_multiplier_input
     )
 
-    shade_dist = Inputs.float(
+    shade_dist = Inputs.str(
         description='A number to note the distance beyond which other buildings shade '
         'should be excluded from a given Honeybee Model. This can include the units of '
         'the distance (eg. 100ft) or, if no units are provided, the value will be '
