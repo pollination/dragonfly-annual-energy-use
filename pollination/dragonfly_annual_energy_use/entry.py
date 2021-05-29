@@ -143,7 +143,7 @@ class DragonflyAnnualEnergyUseEntryPoint(DAG):
 
     zsz = Outputs.folder(
         source='results/zsz', description='Folder containing the CSV files with '
-        'the zone loads over the design day.'
+        'the zone loads over the design day.', optional=True
     )
 
     html = Outputs.folder(
