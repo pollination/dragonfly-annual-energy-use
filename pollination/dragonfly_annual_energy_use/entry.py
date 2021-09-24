@@ -2,7 +2,6 @@ from pollination_dsl.dag import Inputs, DAG, task, Outputs
 from dataclasses import dataclass
 from typing import Dict, List
 from pollination.dragonfly_energy.translate import ModelToHoneybee
-from pollination.honeybee_energy.settings import SimParDefault
 from pollination.honeybee_energy.simulate import SimulateModel
 from pollination.honeybee_energy.result import EnergyUseIntensity
 
