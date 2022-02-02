@@ -20,7 +20,7 @@ class DragonflyAnnualEnergyUseEntryPoint(DAG):
 
     # inputs
     model = Inputs.file(
-        description='A Dragonfly model in JSON file format.',
+        description='A Dragonfly model in DFJSON file format.',
         extensions=['json', 'dfjson'],
         alias=dfjson_model_input
     )
